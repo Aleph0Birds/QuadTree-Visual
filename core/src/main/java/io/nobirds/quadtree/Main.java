@@ -49,6 +49,7 @@ public class Main extends Game {
             Ball2D ball = new Ball2D((float)(Math.random()*10+5), x, y);
             ball.velocity.set(new Vector2((float)(Math.random() * 200) - 50, (float)(Math.random() * 200) - 50));
             entityManager.addEntity(ball);
+            entityManager.entityTree.add(ball);
         }
     }
 
@@ -78,11 +79,6 @@ public class Main extends Game {
             shapeRenderer.setProjectionMatrix(viewport.getCamera().combined);
         }
 
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         entityManager.draw(shapeRenderer);
-        shapeRenderer.end();
-
-        spriteBatch.begin();
-        spriteBatch.end();
     }
 }

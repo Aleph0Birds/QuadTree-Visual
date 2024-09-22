@@ -3,13 +3,16 @@ package io.nobirds.quadtree.manager;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import io.nobirds.quadtree.entity.Ball2D;
 import io.nobirds.quadtree.entity.Entity;
+import io.nobirds.quadtree.struct.QuadTree;
 
 import java.util.ArrayList;
 
 public class EntityManager {
+    public QuadTree<Entity> entityTree;
     ArrayList<Entity> entities;
     ArrayList<Entity> newEntities;
     ArrayList<Entity> removeEntities;
@@ -18,6 +21,7 @@ public class EntityManager {
         entities = new ArrayList<>();
         newEntities = new ArrayList<>();
         removeEntities = new ArrayList<>();
+        entityTree = new QuadTree<>(4, new Rectangle(0, 0, 800, 600));
     }
 
     public void update() {
@@ -84,9 +88,14 @@ public class EntityManager {
     }
 
     public void draw(ShapeRenderer renderer) {
+        renderer.begin(ShapeRenderer.ShapeType.Filled);
         for(Entity entity : entities) {
             entity.draw(renderer);
         }
+        renderer.end();
+        renderer.begin(ShapeRenderer.ShapeType.Line);
+        entityTree.draw(renderer);
+        renderer.end();
     }
 
     public void addEntity(Entity entity) {
