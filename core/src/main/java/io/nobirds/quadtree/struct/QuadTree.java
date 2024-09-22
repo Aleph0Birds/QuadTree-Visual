@@ -40,6 +40,24 @@ public class QuadTree<T extends Entity> {
         }
     }
 
+    public void getItems(Rectangle range, Array<T> result) {
+
+        if (!bounds.overlaps(range)) return;
+
+        for (T item : items) {
+            if (range.contains(item.position)) {
+                result.add(item);
+            }
+        }
+
+        if (divided) {
+            northWest.getItems(range ,result);
+            northEast.getItems(range, result);
+            southWest.getItems(range, result);
+            southEast.getItems(range, result);
+        }
+    }
+
     public void subdivide() {
         float x = bounds.x;
         float y = bounds.y;
@@ -55,6 +73,7 @@ public class QuadTree<T extends Entity> {
 
     // visualization
     public void draw(ShapeRenderer renderer) {
+
 
         renderer.rect(bounds.x, bounds.y, bounds.width, bounds.height);
         if (divided) {
