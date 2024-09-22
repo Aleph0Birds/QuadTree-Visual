@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import io.nobirds.quadtree.entity.Ball2D;
 import io.nobirds.quadtree.entity.Entity;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
@@ -48,13 +47,25 @@ public class EntityManager {
                 //if (j == i) continue;
                 Ball2D other = (Ball2D)entities.get(j);
                 if(entity.position.dst(other.position) <= entity.getRadius() + other.getRadius()) {
+                    entity.setColliding(true);
+                    other.setColliding(true);
+                    clampBalls(entity, other);
                     updateVelocity(entity, other);
                 }
             }
         }
     }
 
-    private void updateVelocity(@NotNull Ball2D ball, @NotNull Ball2D other) {
+    private void clampBalls(Ball2D ball, Ball2D other) {
+        Vector2 distVec = ball.position.cpy().sub(other.position);
+        float dist = distVec.len();
+        float overlap = (ball.getRadius() + other.getRadius()) - dist;
+        Vector2 correction = distVec.scl(overlap / dist / 2);
+        ball.position.add(correction);
+        other.position.sub(correction);
+    }
+
+    private void updateVelocity(Ball2D ball, Ball2D other) {
         // change the velocity of the balls using the formula for 2d elastic collision
 
         Vector2 normal = ball.position.cpy().sub(other.position).nor();

@@ -39,15 +39,15 @@ public class Main extends Game {
         entityManager.init();
         //inputManager.init();
 
-        createBalls(100);
+        createBalls(110);
     }
 
     public void createBalls(int count) {
         for(int i = 0; i < count; i++) {
-            float x = (float)(Math.random() * 800);
+            float x = (float)(Math.random() * 100);
             float y = (float)(Math.random() * 600);
             Ball2D ball = new Ball2D((float)(Math.random()*10+5), x, y);
-            ball.velocity.set(new Vector2((float)(Math.random() * 100) - 50, (float)(Math.random() * 100) - 50));
+            ball.velocity.set(new Vector2((float)(Math.random() * 200) - 50, (float)(Math.random() * 200) - 50));
             entityManager.addEntity(ball);
         }
     }
