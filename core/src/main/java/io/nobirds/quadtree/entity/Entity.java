@@ -13,9 +13,29 @@ public abstract class Entity {
 
     public void move(Vector2 velocity) {
         position.add(velocity);
+        checkCollision(velocity);
     }
 
     public void moveDelta(Vector2 velocity, float deltaTime) {
         position.mulAdd(velocity, deltaTime);
+        checkCollision(velocity);
+    }
+
+    private void checkCollision(Vector2 velocity) {
+        if (hitBoundX()) {
+            velocity.x = -velocity.x;
+        }
+
+        if (hitBoundY()) {
+            velocity.y = -velocity.y;
+        }
+    }
+
+    public boolean hitBoundX() {
+        return position.x < 0 || position.x > 800;
+    }
+
+    public boolean hitBoundY() {
+        return position.y < 0 || position.y > 600;
     }
 }

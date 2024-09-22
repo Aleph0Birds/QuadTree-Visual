@@ -34,6 +34,16 @@ public class Ball2D extends Entity implements ShapeD {
     }
 
     public void draw(ShapeRenderer renderer) {
-        renderer.circle(position.x, position.y, radius);
+        renderer.circle(position.x, position.y, radius, 16);
+    }
+
+    @Override
+    public boolean hitBoundX() {
+        return position.x < radius || position.x > 800 - radius;
+    }
+
+    @Override
+    public boolean hitBoundY() {
+        return position.y < radius || position.y > 600 - radius;
     }
 }

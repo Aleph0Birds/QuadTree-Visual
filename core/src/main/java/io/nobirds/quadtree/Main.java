@@ -1,7 +1,6 @@
 package io.nobirds.quadtree;
 
 import com.badlogic.gdx.Game;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -34,20 +33,19 @@ public class Main extends Game {
         inputManager = new InputManager();
         entityManager = new EntityManager();
 
-        ball2D = new Ball2D(10, 400, 400);
         shapeRenderer = new ShapeRenderer();
 
         entityManager.init();
 
-        createBalls(1);
+        createBalls(10);
     }
 
     public void createBalls(int count) {
         for(int i = 0; i < count; i++) {
             float x = (float)(Math.random() * 800);
             float y = (float)(Math.random() * 600);
-            Ball2D ball = new Ball2D(10, x, y);
-            ball.velocity.set(new Vector2((float)(Math.random() * 60) - 30, (float)(Math.random() * 60) - 30));
+            Ball2D ball = new Ball2D((float)(Math.random()*20), x, y);
+            ball.velocity.set(new Vector2((float)(Math.random() * 100) - 50, (float)(Math.random() * 100) - 50));
             entityManager.addEntity(ball);
         }
     }
