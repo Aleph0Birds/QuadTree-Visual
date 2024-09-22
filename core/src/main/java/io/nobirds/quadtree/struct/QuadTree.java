@@ -20,19 +20,23 @@ public class QuadTree<T extends Entity> {
         items = new Array<>(capacity);
     }
 
-    public void add(T entity) {
+    public boolean add(T entity) {
         //if (entity == null) return;
-        if (!bounds.contains(entity.position)) return;
+        if (!bounds.contains(entity.position)) return false;
 
         if (items.size < capacity) {
             items.add(entity);
+            return true;
         } else {
             if(!divided)
                 this.subdivide();
-            northEast.add(entity);
-            northWest.add(entity);
-            southEast.add(entity);
-            southWest.add(entity);
+            if(northEast.add(entity))
+                return true;
+            if(northWest.add(entity))
+                return true;
+            if(southEast.add(entity))
+                return true;
+            return southWest.add(entity);
         }
     }
 
