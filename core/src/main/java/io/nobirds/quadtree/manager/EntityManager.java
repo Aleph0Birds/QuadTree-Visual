@@ -2,11 +2,14 @@ package io.nobirds.quadtree.manager;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
 import io.nobirds.quadtree.entity.Ball2D;
 import io.nobirds.quadtree.entity.Entity;
+import io.nobirds.quadtree.struct.CircleArea;
 import io.nobirds.quadtree.struct.QuadTree;
 
 import java.util.ArrayList;
@@ -21,17 +24,18 @@ public class EntityManager {
         entities = new ArrayList<>();
         newEntities = new ArrayList<>();
         removeEntities = new ArrayList<>();
-        entityTree = new QuadTree<>(4, new Rectangle(0, 0, 800, 600));
+        entityTree = new QuadTree<>(6, new Rectangle(0, 0, 1440, 900));
     }
 
     public void update() {
         float deltaTime = Gdx.graphics.getDeltaTime();
+        entityTree = new QuadTree<>(6, new Rectangle(0, 0, 1440, 900));
         for(Entity entity : entities) {
             entity.update(deltaTime);
+            entityTree.add(entity);
         }
 
         doCollide();
-
 
         if (!newEntities.isEmpty()) {
             entities.addAll(newEntities);
@@ -47,10 +51,14 @@ public class EntityManager {
     private void doCollide() {
         int listSize = entities.size();
         for(int i = 0; i < listSize; i++) {
-            Ball2D entity = (Ball2D) entities.get(i);
-            for(int j = i + 1; j < listSize; j++) {
-                //if (j == i) continue;
-                Ball2D other = (Ball2D)entities.get(j);
+            Ball2D entity = (Ball2D)entities.get(i);
+            Array<Entity> others = new Array<>();
+            entityTree.getItems(new CircleArea(entity.position.x, entity.position.y, entity.getRadius() * 3), others);
+            //for (int j = i + 1; j < listSize; j++){
+            for(Entity otherE : others) {
+                //Ball2D other = (Ball2D)entities.get(j);
+                Ball2D other = (Ball2D)otherE;
+                if (other == entity) continue;
                 if(entity.position.dst(other.position) <= entity.getRadius() + other.getRadius()) {
                     entity.setColliding(true);
                     other.setColliding(true);
@@ -96,10 +104,14 @@ public class EntityManager {
         }
         renderer.end();
 
-//        renderer.setColor(Color.GOLD);
-//        renderer.begin(ShapeRenderer.ShapeType.Line);
-//        entityTree.draw(renderer);
-//        renderer.end();
+        Gdx.gl.glEnable(GL20.GL_BLEND);
+        Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+
+        renderer.setColor(new Color(1f, 0.5f, 0f, 0.25f));
+        renderer.begin(ShapeRenderer.ShapeType.Line);
+        entityTree.draw(renderer);
+        renderer.end();
+
     }
 
     public void addEntity(Entity entity) {

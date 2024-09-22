@@ -40,9 +40,9 @@ public class QuadTree<T extends Entity> {
         }
     }
 
-    public void getItems(Rectangle range, Array<T> result) {
+    public void getItems(Area range, Array<T> result) {
 
-        if (!bounds.overlaps(range)) return;
+        if (!range.overlaps(bounds)) return;
 
         for (T item : items) {
             if (range.contains(item.position)) {

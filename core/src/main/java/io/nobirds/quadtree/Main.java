@@ -15,11 +15,12 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import io.nobirds.quadtree.entity.Ball2D;
 import io.nobirds.quadtree.entity.Entity;
 import io.nobirds.quadtree.manager.EntityManager;
+import io.nobirds.quadtree.struct.RectArea;
 
 /** {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms. */
 public class Main extends Game {
 
-    Rectangle area = new Rectangle(200, 100, 200, 200);
+    RectArea area = new RectArea(new Rectangle(200, 100, 200, 200));
     ShapeRenderer shapeRenderer;
     BitmapFont font;
     float curFps = 0;
@@ -54,19 +55,19 @@ public class Main extends Game {
         entityManager.init();
         //inputManager.init();
 
-        createBalls(200);
+        createBalls(10000);
 
         result = new Array<>();
         entityManager.entityTree.getItems(area, result);
-        Gdx.app.log("Tag", "(" + result.size + ") " + result.toString());
+        //Gdx.app.log("Tag", "(" + result.size + ") " + result.toString());
     }
 
     public void createBalls(int count) {
         for(int i = 0; i < count; i++) {
-            float x = (float)(Math.random() * 800);
-            float y = (float)(Math.random() * 600);
-            Ball2D ball = new Ball2D((float)(Math.random()*10+5), x, y);
-            ball.velocity.set(new Vector2((float)(Math.random() * 200) - 50, (float)(Math.random() * 200) - 50));
+            float x = (float)(Math.random() * 700);
+            float y = (float)(Math.random() * 500);
+            Ball2D ball = new Ball2D(1, x, y);
+            ball.velocity.set(new Vector2((float)(Math.random() * 200) - 100, (float)(Math.random() * 200) - 100));
             entityManager.addEntity(ball);
             entityManager.entityTree.add(ball);
         }
@@ -93,8 +94,8 @@ public class Main extends Game {
 
         if (cursorPos.y == prevPos.y && cursorPos.x == prevPos.x) return;
 
-        area.x = cursorPos.x - area.width / 2;
-        area.y = cursorPos.y - area.height / 2;
+        area.rect.x = cursorPos.x - area.rect.width / 2;
+        area.rect.y = cursorPos.y - area.rect.height / 2;
 
         result.clear();
         entityManager.entityTree.getItems(area, result);
@@ -125,7 +126,7 @@ public class Main extends Game {
 
         shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
         shapeRenderer.setColor(Color.GREEN);
-        shapeRenderer.rect(area.x, area.y, area.width, area.height);
+        shapeRenderer.rect(area.rect.x, area.rect.y, area.rect.width, area.rect.height);
         shapeRenderer.end();
 
         entityManager.draw(shapeRenderer);
