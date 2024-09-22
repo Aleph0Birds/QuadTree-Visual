@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import io.nobirds.quadtree.entity.Ball2D;
+import io.nobirds.quadtree.manager.EntityManager;
 
 /** {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms. */
 public class Main extends Game {
@@ -19,14 +20,23 @@ public class Main extends Game {
     FitViewport viewport;
     boolean viewportUpdated;
 
+    InputManager inputManager;
+    EntityManager entityManager;
+
     @Override
     public void create() {
         //setScreen(new FirstScreen());
         viewport = new FitViewport(800, 600);
         spriteBatch = new SpriteBatch();
         viewportUpdated = true;
+
+        inputManager = new InputManager();
+        entityManager = new EntityManager();
+
         ball2D = new Ball2D(10, 400, 400);
         shapeRenderer = new ShapeRenderer();
+
+        entityManager.init();
     }
 
     @Override
@@ -37,7 +47,12 @@ public class Main extends Game {
 
     @Override
     public void render() {
+        updateManagers();
         draw();
+    }
+
+    private void updateManagers() {
+        entityManager.update();
     }
 
     private void draw() {
