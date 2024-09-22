@@ -32,10 +32,10 @@ public abstract class Entity {
     }
 
     public boolean hitBoundX() {
-        return position.x < 0 || position.x > 800;
+        return position.x < 0 || position.x > 1440;
     }
 
     public boolean hitBoundY() {
-        return position.y < 0 || position.y > 600;
+        return position.y < 0 || position.y > 900;
     }
 }

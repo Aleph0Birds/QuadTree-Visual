@@ -53,19 +53,19 @@ public class Ball2D extends Entity implements ShapeD {
 
     @Override
     public boolean hitBoundX() {
-        return position.x <= radius || position.x >= 800 - radius;
+        return position.x <= radius || position.x >= 1440 - radius;
     }
 
     @Override
     public boolean hitBoundY() {
-        return position.y <= radius || position.y >= 600 - radius;
+        return position.y <= radius || position.y >= 900 - radius;
     }
 
     public void clampPosition() {
         if (hitBoundX())
-            position.x = MathUtils.clamp(position.x, radius, 800 - radius);
+            position.x = MathUtils.clamp(position.x, radius, 1440 - radius);
 
         if (hitBoundY())
-            position.y = MathUtils.clamp(position.y, radius, 600 - radius);
+            position.y = MathUtils.clamp(position.y, radius, 900 - radius);
     }
 }

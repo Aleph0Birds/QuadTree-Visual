@@ -41,7 +41,7 @@ public class Main extends Game {
         Gdx.graphics.setVSync(false);
         Gdx.graphics.setForegroundFPS(Integer.MAX_VALUE);
         //setScreen(new FirstScreen());
-        viewport = new FitViewport(800, 600);
+        viewport = new FitViewport(1440, 900);
         spriteBatch = new SpriteBatch();
         viewportUpdated = true;
 
@@ -140,7 +140,7 @@ public class Main extends Game {
 
         spriteBatch.begin();
         font.setColor(Color.GREEN);
-        font.draw(spriteBatch, "FPS: " + curFps, 20, 580);
+        font.draw(spriteBatch, "FPS: " + curFps, 20, 880);
         spriteBatch.end();
 
     }
