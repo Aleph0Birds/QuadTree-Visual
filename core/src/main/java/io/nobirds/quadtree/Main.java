@@ -5,6 +5,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import io.nobirds.quadtree.entity.Ball2D;
@@ -13,7 +14,7 @@ import io.nobirds.quadtree.manager.EntityManager;
 /** {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms. */
 public class Main extends Game {
 
-    Ball2D ball2D;
+    Ball2D[] balls;
     ShapeRenderer shapeRenderer;
 
     SpriteBatch spriteBatch;
@@ -37,6 +38,18 @@ public class Main extends Game {
         shapeRenderer = new ShapeRenderer();
 
         entityManager.init();
+
+        createBalls(1);
+    }
+
+    public void createBalls(int count) {
+        for(int i = 0; i < count; i++) {
+            float x = (float)(Math.random() * 800);
+            float y = (float)(Math.random() * 600);
+            Ball2D ball = new Ball2D(10, x, y);
+            ball.velocity.set(new Vector2((float)(Math.random() * 60) - 30, (float)(Math.random() * 60) - 30));
+            entityManager.addEntity(ball);
+        }
     }
 
     @Override
@@ -65,7 +78,7 @@ public class Main extends Game {
         }
 
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        ball2D.draw(shapeRenderer);
+        entityManager.draw(shapeRenderer);
         shapeRenderer.end();
 
         spriteBatch.begin();

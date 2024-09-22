@@ -8,7 +8,7 @@ public class Ball2D extends Entity implements ShapeD {
 
     public Ball2D(float radius, Vector2 position) {
         this.radius = radius;
-        this.position = position;
+        this.position.set(position);
     }
 
     public Ball2D(float radius) {
@@ -29,8 +29,8 @@ public class Ball2D extends Entity implements ShapeD {
     }
 
     @Override
-    public void update() {
-        move(this.velocity);
+    public void update(float deltaTime) {
+        moveDelta(this.velocity, deltaTime);
     }
 
     public void draw(ShapeRenderer renderer) {

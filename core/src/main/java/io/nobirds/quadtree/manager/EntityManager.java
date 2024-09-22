@@ -1,5 +1,8 @@
 package io.nobirds.quadtree.manager;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Graphics;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import io.nobirds.quadtree.entity.Entity;
 
 import java.util.ArrayList;
@@ -16,8 +19,9 @@ public class EntityManager {
     }
 
     public void update() {
+        float deltaTime = Gdx.graphics.getDeltaTime();
         for(Entity entity : entities) {
-            entity.update();
+            entity.update(deltaTime);
         }
 
         if (!newEntities.isEmpty()) {
@@ -28,6 +32,12 @@ public class EntityManager {
         if (!removeEntities.isEmpty()) {
             entities.removeAll(removeEntities);
             removeEntities.clear();
+        }
+    }
+
+    public void draw(ShapeRenderer renderer) {
+        for(Entity entity : entities) {
+            entity.draw(renderer);
         }
     }
 
