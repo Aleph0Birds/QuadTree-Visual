@@ -1,6 +1,7 @@
 package io.nobirds.quadtree.entity;
 
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 
 public class Ball2D extends Entity implements ShapeD {
@@ -31,6 +32,7 @@ public class Ball2D extends Entity implements ShapeD {
     @Override
     public void update(float deltaTime) {
         moveDelta(this.velocity, deltaTime);
+        clampPosition();
     }
 
     public void draw(ShapeRenderer renderer) {
@@ -39,11 +41,19 @@ public class Ball2D extends Entity implements ShapeD {
 
     @Override
     public boolean hitBoundX() {
-        return position.x < radius || position.x > 800 - radius;
+        return position.x <= radius || position.x >= 800 - radius;
     }
 
     @Override
     public boolean hitBoundY() {
-        return position.y < radius || position.y > 600 - radius;
+        return position.y <= radius || position.y >= 600 - radius;
+    }
+
+    public void clampPosition() {
+        if (hitBoundX())
+            position.x = MathUtils.clamp(position.x, radius, 800 - radius);
+
+        if (hitBoundY())
+            position.y = MathUtils.clamp(position.y, radius, 600 - radius);
     }
 }
