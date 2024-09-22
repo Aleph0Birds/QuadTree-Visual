@@ -1,7 +1,7 @@
 package io.nobirds.quadtree.manager;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Graphics;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
@@ -30,7 +30,8 @@ public class EntityManager {
             entity.update(deltaTime);
         }
 
-        collisionCheck();
+        doCollide();
+
 
         if (!newEntities.isEmpty()) {
             entities.addAll(newEntities);
@@ -43,7 +44,7 @@ public class EntityManager {
         }
     }
 
-    private void collisionCheck() {
+    private void doCollide() {
         int listSize = entities.size();
         for(int i = 0; i < listSize; i++) {
             Ball2D entity = (Ball2D) entities.get(i);
@@ -88,14 +89,17 @@ public class EntityManager {
     }
 
     public void draw(ShapeRenderer renderer) {
+        renderer.setColor(Color.WHITE);
         renderer.begin(ShapeRenderer.ShapeType.Filled);
         for(Entity entity : entities) {
             entity.draw(renderer);
         }
         renderer.end();
-        renderer.begin(ShapeRenderer.ShapeType.Line);
-        entityTree.draw(renderer);
-        renderer.end();
+
+//        renderer.setColor(Color.GOLD);
+//        renderer.begin(ShapeRenderer.ShapeType.Line);
+//        entityTree.draw(renderer);
+//        renderer.end();
     }
 
     public void addEntity(Entity entity) {
