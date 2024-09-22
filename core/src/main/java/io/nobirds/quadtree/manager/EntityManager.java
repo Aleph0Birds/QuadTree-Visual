@@ -24,12 +24,12 @@ public class EntityManager {
         entities = new ArrayList<>();
         newEntities = new ArrayList<>();
         removeEntities = new ArrayList<>();
-        entityTree = new QuadTree<>(6, new Rectangle(0, 0, 1440, 900));
+        entityTree = new QuadTree<>(4, new Rectangle(0, 0, 1440, 900));
     }
 
     public void update() {
         float deltaTime = Gdx.graphics.getDeltaTime();
-        entityTree = new QuadTree<>(6, new Rectangle(0, 0, 1440, 900));
+        entityTree = new QuadTree<>(4, new Rectangle(0, 0, 1440, 900));
         for(Entity entity : entities) {
             entity.update(deltaTime);
             entityTree.add(entity);

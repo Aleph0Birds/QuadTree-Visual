@@ -9,23 +9,26 @@ public class QuadTree<T extends Entity> {
 
     Rectangle bounds;
     int capacity;
-    Array<T> items;
+    T[] items;
+    int count = 0;
     boolean divided = false;
 
     public QuadTree<T> northWest, northEast, southWest, southEast;
 
+    @SuppressWarnings("unchecked")
     public QuadTree(int capacity, Rectangle bounds) {
         this.bounds = bounds;
         this.capacity = capacity;
-        items = new Array<>(capacity);
+        items = (T[])(java.lang.reflect.Array.newInstance(Entity.class, capacity));
     }
 
     public boolean add(T entity) {
         //if (entity == null) return;
         if (!bounds.contains(entity.position)) return false;
 
-        if (items.size < capacity) {
-            items.add(entity);
+        if (count < capacity) {
+            items[count] = (entity);
+            count++;
             return true;
         } else {
             if(!divided)
@@ -44,9 +47,9 @@ public class QuadTree<T extends Entity> {
 
         if (!range.overlaps(bounds)) return;
 
-        for (T item : items) {
-            if (range.contains(item.position)) {
-                result.add(item);
+        for (short i = 0; i < count; i++) {
+            if (range.contains(items[i].position)) {
+                result.add(items[i]);
             }
         }
 
