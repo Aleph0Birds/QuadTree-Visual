@@ -8,10 +8,12 @@ import com.badlogic.gdx.math.Vector2;
 public class Ball2D extends Entity implements ShapeD {
     private float radius;
     private boolean colliding = false;
+    private final Integer segments;
 
     public Ball2D(float radius, Vector2 position) {
         this.radius = radius;
         this.position.set(position);
+        segments = (int) (MathUtils.log2(radius * 50 + 1)+1);
     }
 
     public Ball2D(float radius) {
@@ -44,11 +46,13 @@ public class Ball2D extends Entity implements ShapeD {
     public void draw(ShapeRenderer renderer) {
         if (colliding)
             renderer.setColor(Color.RED);
-
-        renderer.circle(position.x, position.y, radius, 16);
-
-        if (colliding)
+        else
             renderer.setColor(Color.WHITE);
+
+
+        renderer.circle(position.x, position.y, radius, segments == 0 ? 1 : segments);
+
+
     }
 
     @Override

@@ -69,9 +69,9 @@ public class Main extends Game {
     }
 
     private void registerKeyListeners() {
-        inputManager.addKeyListener(Keybind.DEBUG, () -> {
-            drawDebug = !drawDebug;
-        }).addKeyListener(Keybind.PAUSE, () -> {
+        inputManager.addKeyListener(Keybind.DEBUG, () ->
+            drawDebug = !drawDebug
+        ).addKeyListener(Keybind.PAUSE, () -> {
             if(!pausing)
                 pause();
             else
@@ -85,8 +85,8 @@ public class Main extends Game {
         for(int i = 0; i < count; i++) {
             float x = (float)(Math.random() * 700);
             float y = (float)(Math.random() * 500);
-            Ball2D ball = new Ball2D(1, x, y);
-            ball.velocity.set(new Vector2((float)(Math.random() * 200) - 100, (float)(Math.random() * 200) - 100));
+            Ball2D ball = new Ball2D((float)(Math.random() * 4 + 0.1), x, y);
+            ball.velocity.set(new Vector2((float)(Math.random() * 150) - 75, (float)(Math.random() * 150) - 75));
             entityManager.addEntity(ball);
             entityManager.entityTree.add(ball);
         }
