@@ -77,13 +77,13 @@ public class QuadTree<T extends Entity> {
     // visualization
     public void draw(ShapeRenderer renderer) {
 
-
-        renderer.rect(bounds.x, bounds.y, bounds.width, bounds.height);
         if (divided) {
             northWest.draw(renderer);
             northEast.draw(renderer);
             southWest.draw(renderer);
             southEast.draw(renderer);
         }
+        else
+            renderer.rect(bounds.x, bounds.y, bounds.width, bounds.height);
     }
 }

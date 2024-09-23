@@ -28,6 +28,8 @@ public class Main extends Game {
     float curFps = 0;
     final float cdTimeSecond = 0.5f;
     float curCDTime = 0;
+    boolean drawDebug = false;
+    boolean pausing = false;
 
     SpriteBatch spriteBatch;
     FitViewport viewport;
@@ -66,6 +68,19 @@ public class Main extends Game {
         //Gdx.app.log("Tag", "(" + result.size + ") " + result.toString());
     }
 
+    private void registerKeyListeners() {
+        inputManager.addKeyListener(Keybind.DEBUG, () -> {
+            drawDebug = !drawDebug;
+        }).addKeyListener(Keybind.PAUSE, () -> {
+            if(!pausing)
+                pause();
+            else
+                resume();
+            pausing = !pausing;
+        });
+
+    }
+
     public void createBalls(int count) {
         for(int i = 0; i < count; i++) {
             float x = (float)(Math.random() * 700);
@@ -85,8 +100,11 @@ public class Main extends Game {
 
     @Override
     public void render() {
-        updateManagers();
-        updateRect();
+        inputManager.update();
+        if(!pausing) {
+            entityManager.update();
+            updateRect();
+        }
         draw();
         updateFPS();
     }
@@ -114,9 +132,27 @@ public class Main extends Game {
         curCDTime = 0;
     }
 
-    private void updateManagers() {
-        entityManager.update();
-        //inputManager.update();
+    private void debugDraw() {
+        if(!drawDebug) return;
+        result.forEach(entity -> {
+            float radius = ((Ball2D)entity).getRadius();
+            shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+            shapeRenderer.setColor(Color.GREEN);
+            shapeRenderer.rect(entity.position.x - radius, entity.position.y - radius, radius * 2, radius * 2);
+            shapeRenderer.end();
+        });
+
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+        shapeRenderer.setColor(Color.GREEN);
+        shapeRenderer.rect(area.rect.x, area.rect.y, area.rect.width, area.rect.height);
+        shapeRenderer.end();
+
+        spriteBatch.begin();
+        font.setColor(Color.GREEN);
+        font.draw(spriteBatch, "FPS: " + curFps, 20, 880);
+        spriteBatch.end();
+
+        entityManager.drawDebug(shapeRenderer);
     }
 
     private void draw() {
@@ -128,25 +164,9 @@ public class Main extends Game {
             shapeRenderer.setProjectionMatrix(viewport.getCamera().combined);
         }
 
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-        shapeRenderer.setColor(Color.GREEN);
-        shapeRenderer.rect(area.rect.x, area.rect.y, area.rect.width, area.rect.height);
-        shapeRenderer.end();
 
         entityManager.draw(shapeRenderer);
 
-        result.forEach(entity -> {
-            float radius = ((Ball2D)entity).getRadius();
-            shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-            shapeRenderer.setColor(Color.GREEN);
-            shapeRenderer.rect(entity.position.x - radius, entity.position.y - radius, radius * 2, radius * 2);
-            shapeRenderer.end();
-        });
-
-        spriteBatch.begin();
-        font.setColor(Color.GREEN);
-        font.draw(spriteBatch, "FPS: " + curFps, 20, 880);
-        spriteBatch.end();
-
+        debugDraw();
     }
 }
