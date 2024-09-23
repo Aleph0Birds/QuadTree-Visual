@@ -14,7 +14,9 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import io.nobirds.quadtree.entity.Ball2D;
 import io.nobirds.quadtree.entity.Entity;
+import io.nobirds.quadtree.io.Keybind;
 import io.nobirds.quadtree.manager.EntityManager;
+import io.nobirds.quadtree.manager.InputManager;
 import io.nobirds.quadtree.struct.RectArea;
 
 /** {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms. */
@@ -33,7 +35,7 @@ public class Main extends Game {
 
     Array<Entity> result;
 
-    //InputManager inputManager;
+    InputManager inputManager;
     EntityManager entityManager;
 
     @Override
@@ -46,15 +48,17 @@ public class Main extends Game {
         spriteBatch = new SpriteBatch();
         viewportUpdated = true;
 
-        //inputManager = new InputManager();
+        inputManager = new InputManager();
         entityManager = new EntityManager();
         shapeRenderer = new ShapeRenderer();
 
         font = new BitmapFont();
 
         entityManager.init();
-        //inputManager.init();
+        inputManager.init();
 
+        Keybind.bindDefaultKeys();
+        registerKeyListeners();
         createBalls(10000);
 
         result = new Array<>();
