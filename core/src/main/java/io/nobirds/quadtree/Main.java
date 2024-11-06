@@ -61,7 +61,7 @@ public class Main extends Game {
 
         Keybind.bindDefaultKeys();
         registerKeyListeners();
-        createBalls(10000);
+        createBalls(100);
 
         result = new Array<>();
         entityManager.entityTree.getItems(area, result);
@@ -77,6 +77,11 @@ public class Main extends Game {
             else
                 resume();
             pausing = !pausing;
+        }).addMouseListener(Keybind.MOUSE_LCLICK, () -> {
+            float randX = (float)(Math.random());
+            float randY = (float)(Math.random());
+            Gdx.app.log("Input", "Click at (" + Gdx.input.getX() + ", " + Gdx.graphics.getHeight() + " - " + Gdx.input.getY() + ")");
+            entityManager.addEntity(new Ball2D(5, Gdx.input.getX() + randX, Gdx.graphics.getHeight() - Gdx.input.getY() - randY));
         });
 
     }
@@ -85,7 +90,7 @@ public class Main extends Game {
         for(int i = 0; i < count; i++) {
             float x = (float)(Math.random() * 700);
             float y = (float)(Math.random() * 500);
-            Ball2D ball = new Ball2D((float)(Math.random() * 4 + 0.1), x, y);
+            Ball2D ball = new Ball2D((float)(Math.random() * 1 + 10), x, y);
             ball.velocity.set(new Vector2((float)(Math.random() * 150) - 75, (float)(Math.random() * 150) - 75));
             entityManager.addEntity(ball);
             entityManager.entityTree.add(ball);

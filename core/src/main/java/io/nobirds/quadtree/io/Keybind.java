@@ -8,6 +8,7 @@ import java.util.HashMap;
 public class Keybind {
     public static final byte MAX_KEYBINDINGS = 4;
     public static final HashMap<String, Integer[]> keybinds = new HashMap<>();
+    public static final HashMap<String, Integer[]> mousebinds = new HashMap<>();
 
     public static final String DEBUG = "debug";
     public static final String PAUSE = "pause";
@@ -16,7 +17,7 @@ public class Keybind {
     public static void bindDefaultKeys() {
         bindKey(DEBUG, Input.Keys.F3);
         bindKey(PAUSE, Input.Keys.P);
-        bindKey(MOUSE_LCLICK, Input.Buttons.LEFT);
+        bindMouseKey(MOUSE_LCLICK, Input.Buttons.LEFT);
     }
 
     public static void bindKey(String keyName, int keyCode) {
@@ -39,5 +40,26 @@ public class Keybind {
 
 
         keybinds.put(keyName, keys);
+    }
+
+    public static void bindMouseKey(String keyName, int mouseKeyCode) {
+        Integer[] keys = mousebinds.get(keyName);
+        if (keys == null)
+            keys = new Integer[MAX_KEYBINDINGS];
+
+        int i = 0;
+        for (; i < MAX_KEYBINDINGS; i++) {
+            if (keys[i] == null) {
+                keys[i] = mouseKeyCode;
+                break;
+            }
+        }
+
+        if (i >= MAX_KEYBINDINGS) {
+            Gdx.app.error("Keybind", "Keybind " + keyName + " has reached the maximum number of keybindings.");
+            return;
+        }
+
+        mousebinds.put(keyName, keys);
     }
 }
