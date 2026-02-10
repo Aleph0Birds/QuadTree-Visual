@@ -1,5 +1,7 @@
 # QuadTree Visual
 
+![Showcase](https://cdn.discordapp.com/attachments/725271886476607520/1470779978680369162/2026-02-10_21-53_t7.gif?ex=698c8a18&is=698b3898&hm=f6d6b5fbdf3d4f0774d07b10c6ec5d23c4855014686bc371b041e6201c4e7d23&)
+
 A [libGDX](https://libgdx.com/) project generated with [gdx-liftoff](https://github.com/libgdx/gdx-liftoff).
 
 This project was generated with a template including simple application launchers and a main class extending `Game` that sets the first screen.
